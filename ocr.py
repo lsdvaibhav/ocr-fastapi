@@ -13,7 +13,7 @@ async def read_image(img_path, lang='eng'):
     Returns
     :text: str, converted text from image
     """
-
+    return pytesseract.image_to_string(img_path, lang=lang)
     try:
         return pytesseract.image_to_string(img_path, lang=lang)
     except:
