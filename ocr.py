@@ -15,27 +15,8 @@ async def read_image(img_path, lang='eng'):
     """
     #return pytesseract.image_to_string(Image.open(img_path), lang=lang)
     try:
-        image = Image.open(img_path)
-        while True:
-            osd_rotated_image = pytesseract.image_to_osd(image)
-
-            # using regex we search for the angle(in string format) of the text
-            angle_rotated_image = re.search('(?<=Rotate: )\d+', osd_rotated_image).group(0)
-
-            if (angle_rotated_image == '0'):
-                image = image
-                # break the loop once we get the correctly deskewed image
-                break
-            elif (angle_rotated_image == '90'):
-                image = rotate(image,90,(255,255,255)) # rotate(image,angle,background_color)
-                continue
-            elif (angle_rotated_image == '180'):
-                image = rotate(image,180,(255,255,255))
-                continue
-            elif (angle_rotated_image == '270'):
-                image = rotate(image,90,(255,255,255))
-                continue
-        return pytesseract.image_to_string(image, lang=lang)
+        imagei = Image.open(img_path)
+        return pytesseract.image_to_string(imagei, lang=lang)
     except:
         return "[ERROR] Unable to process file: {0}".format(img_path)
 
