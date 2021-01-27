@@ -72,6 +72,7 @@ def genrateData(text):
     cob = text1[text1.find('constitution of business'):text1.find('address of principal place of')]
     addBusiness = text1[text1.find('address of principal place of'):]
     address = addBusiness[addBusiness.find('address of principal place of'):addBusiness.find('business')]+addBusiness[addBusiness.find('business')+8:addBusiness.find('date of liability')]
+    dol = addBusiness[addBusiness.find('date of liability'):addBusiness.find('period of validity')]
     pov = addBusiness[addBusiness.find('period of validity'):addBusiness.find('type of registration')]
     tor = addBusiness[addBusiness.find('type of registration'):addBusiness.find('particulars of approving authority')]
     poaa = addBusiness[addBusiness.find('particulars of approving authority'):addBusiness.find('signature')]
