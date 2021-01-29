@@ -82,7 +82,7 @@ def genrateData(text):
     jo = addBusiness[addBusiness.find('jurisdictional office')+len('jurisdictional office'):addBusiness.find('date of issue of certificate')]
     doi = addBusiness[addBusiness.find('date of issue of certificate')+len('date of issue of certificate'):addBusiness.find('note')]
     
-    data = {
+    data = {"gstNumber" :rn,
         "registrationNumber":rn,
         "legalName":ln,
         "tradeName":tnia,
