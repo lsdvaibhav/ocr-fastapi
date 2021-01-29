@@ -66,7 +66,7 @@ def genrateData(text):
                 else :
                     text1 =  text1+ eachh+' '
 
-    rn = text1[text1.find('registration number :')+len('registration number :'):text1.find('registration number :')+len('registration number :')+12]]
+    rn = text1[text1.find('registration number :')+len('registration number :'):text1.find('registration number :')+len('registration number :')+12]
     ln = text1[text1.find('legal name')+len('legal name'):text1.find('trade name')]
     tnia = text1[text1.find('trade name, if any')+len('trade name, if any'):text1.find('constitution of business')]
     cob = text1[text1.find('constitution of business')+len('constitution of business'):text1.find('address of principal place of')]
