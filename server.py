@@ -66,21 +66,21 @@ def genrateData(text):
                 else :
                     text1 =  text1+ eachh+' '
 
-    rn = text1[text1.find('registration number :'):text1.find('legal name')]
-    ln = text1[text1.find('legal name'):text1.find('trade name')]
-    tnia = text1[text1.find('trade name, if any'):text1.find('constitution of business')]
-    cob = text1[text1.find('constitution of business'):text1.find('address of principal place of')]
+    rn = text1[text1.find('registration number :')+len('registration number :'):text1.find('registration number :')+len('registration number :')+12]]
+    ln = text1[text1.find('legal name')+len('legal name'):text1.find('trade name')]
+    tnia = text1[text1.find('trade name, if any')+len('trade name, if any'):text1.find('constitution of business')]
+    cob = text1[text1.find('constitution of business')+len('constitution of business'):text1.find('address of principal place of')]
     addBusiness = text1[text1.find('address of principal place of'):]
-    address = addBusiness[addBusiness.find('address of principal place of'):addBusiness.find('business')]+addBusiness[addBusiness.find('business')+8:addBusiness.find('date of liability')]
-    dol = addBusiness[addBusiness.find('date of liability'):addBusiness.find('period of validity')]
-    pov = addBusiness[addBusiness.find('period of validity'):addBusiness.find('type of registration')]
-    tor = addBusiness[addBusiness.find('type of registration'):addBusiness.find('particulars of approving authority')]
-    poaa = addBusiness[addBusiness.find('particulars of approving authority'):addBusiness.find('signature')]
-    sign = addBusiness[addBusiness.find('signature'):addBusiness.find('name')]
-    name = addBusiness[addBusiness.find('name'):addBusiness.find('designation')]
-    des = addBusiness[addBusiness.find('designation'):addBusiness.find('jurisdictional office')]
-    jo = addBusiness[addBusiness.find('jurisdictional office'):addBusiness.find('date of issue of certificate')]
-    doi = addBusiness[addBusiness.find('date of issue of certificate'):addBusiness.find('note')]
+    address = addBusiness[addBusiness.find('address of principal place of')+len('address of principal place of'):addBusiness.find('business')]+addBusiness[addBusiness.find('business')+8:addBusiness.find('date of liability')]
+    dol = addBusiness[addBusiness.find('date of liability')+len('date of liability'):addBusiness.find('period of validity')]
+    pov = addBusiness[addBusiness.find('period of validity')+len('period of validity'):addBusiness.find('type of registration')]
+    tor = addBusiness[addBusiness.find('type of registration')+len('type of registration'):addBusiness.find('particulars of approving authority')]
+    poaa = addBusiness[addBusiness.find('particulars of approving authority')+len('particulars of approving authority'):addBusiness.find('signature')]
+    sign = addBusiness[addBusiness.find('signature')+len('signature'):addBusiness.find('name')]
+    name = addBusiness[addBusiness.find('name')+len('name'):addBusiness.find('designation')]
+    des = addBusiness[addBusiness.find('designation')+len('designation'):addBusiness.find('jurisdictional office')]
+    jo = addBusiness[addBusiness.find('jurisdictional office')+len('jurisdictional office'):addBusiness.find('date of issue of certificate')]
+    doi = addBusiness[addBusiness.find('date of issue of certificate')+len('date of issue of certificate'):addBusiness.find('note')]
     
     data = {
         "registrationNumber":rn,
