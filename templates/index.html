@@ -46,9 +46,9 @@
         processData: false,
         success: function(data) {
           if (endpoint == '/api/v1/extract_text') {
-		alert(data);
+		alert(data.text.datalist);
 		  console.log(data);
-            swal("Converted Text", data.text);
+            swal("Converted Text", data.text.gstNumber);
           }
           else {
             swal("Request Recieved", "Converted files will start showing up at the bottom soon!");
