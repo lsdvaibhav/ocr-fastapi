@@ -19,13 +19,17 @@ def home(request: Request):
 @app.post("/api/v1/extract_text")
 async def extract_text(image: UploadFile = File(...)):
     temp_file = _save_file_to_disk(image, path="temp", save_as="temp")
+    print(temp_file)
     if image.filename.split('.')[-1] == 'pdf':
         # Store Pdf with convert_from_path function
+        
         images = convert_from_path(temp_file)
-        text = await ocr.read_image(image[0])
+        data='pdf'
+        #text = await ocr.read_image(image[0])
     else :
-        text = await ocr.read_image(temp_file)
-    data   = genrateData(text)
+        data= "image"
+        #text = await ocr.read_image(temp_file)
+    #data   = genrateData(text)
     return {"filename": image.filename, "text": data}
 
 @app.post("/api/v1/bulk_extract_text")
