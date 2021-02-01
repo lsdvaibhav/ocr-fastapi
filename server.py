@@ -73,7 +73,7 @@ def genrateData(text):
         if len(each) >1:
             datalist.append(each)
             for eachh in each.split(' '):
-                if  eachh == '' or eachh== ' ' or len(each)==1:
+                if  eachh == '' or eachh== ' ':
                     pass
                 else :
                     text1 =  text1+ eachh+' '
