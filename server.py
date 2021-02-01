@@ -19,7 +19,6 @@ def home(request: Request):
 @app.post("/api/v1/extract_text")
 async def extract_text(image: UploadFile = File(...)):
     temp_file = _save_file_to_disk(image, path="temp", save_as="temp")
-    print(temp_file)
     if image.filename.split('.')[-1] == 'pdf':
         with pdfplumber.open(temp_file) as pdf:
             first_page = pdf.pages[0]
