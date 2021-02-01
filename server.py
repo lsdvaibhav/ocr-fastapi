@@ -27,7 +27,7 @@ async def extract_text(image: UploadFile = File(...)):
 async def extract_tex_from_pdft(pdf: UploadFile = File(...)):
     temp_file_pdf = _save_file_to_disk(pdf, path="temp", save_as="pdf_temp")
     if pdf.filename.split('.')[-1] == 'pdf':
-        with pdfplumber.open(temp_file) as pdffile:
+        with pdfplumber.open(temp_file_pdf) as pdffile:
             first_page = pdffile.pages[0]
         data = genrateData(first_page.extract_text())
     return {"filename": pdf.filename, "text": data}
