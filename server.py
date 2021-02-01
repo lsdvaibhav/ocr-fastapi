@@ -7,7 +7,7 @@ import uuid
 import json
 import re
 import pdfplumber
-
+import pandas as pd
 
 app = FastAPI()
 templates = Jinja2Templates(directory="templates")
@@ -26,11 +26,25 @@ async def extract_text(image: UploadFile = File(...)):
 @app.post("/api/v1/extract_text_from_pdf")
 async def extract_tex_from_pdf(pdf: UploadFile = File(...)):
     temp_file_pdf = _save_file_to_disk(pdf, path="temp", save_as="pdf_temp")
-    if pdf.filename.split('.')[-1] == 'pdf':
-        with pdfplumber.open(temp_file_pdf) as pdffile:
-            first_page = pdffile.pages[0]
-            text = first_page.extract_text()
-            data = genrateData(text)
+    with pdfplumber.open(temp_file_pdf) as pdffile:
+        first_page = pdffile.pages[0]
+        text = first_page.extract_table(table_settings={})
+    df = pd.DataFrame(text)
+    data={}
+    for index in df.index:
+        value = ""
+        if index <8:
+            for each in df.iloc[index][2:]:
+                if each == None:
+                    pass
+                else :
+                    value += each 
+            key = df.iloc[index][1]
+            data.__setitem__(key, value) 
+        else:
+            key = df.iloc[index][0]
+            data.__setitem__(key, value) 
+    
     return {"filename": pdf.filename, "text": data}
 
 @app.post("/api/v1/bulk_extract_text")
