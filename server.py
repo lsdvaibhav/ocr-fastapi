@@ -27,45 +27,27 @@ async def extract_tex_from_pdf(pdf: UploadFile = File(...)):
     temp_file_pdf = _save_file_to_disk(pdf, path="temp", save_as="pdf_temp")
     with pdfplumber.open(temp_file_pdf) as pdffile:
         first_page = pdffile.pages[0]
-        text = first_page.extract_table(table_settings={})
-    data={}
-    for index,row in enumerate(text):
+        #find big one table and extract text from it
+        rows = first_page.extract_table(table_settings={})
+        #extract registration number 
+        text1 = str(first_page.extract_text())
+        reg_pos = text1.find('Registration Number :')#position
+        registrationNumber = text1[reg_pos+21:reg_pos+33]#twelve chars 
+
+    #dictionary result 
+    data={"registrationNumber":registrationNumber}
+    for index,row in enumerate(rows):
         value = ""
         if index <8:
             for each in row[2:]:
-                if each == None:
-                    pass
-                else :
+                if each != None:
                     value += each 
             key = row[1]
             data.__setitem__(key, value) 
         else:
             key = row[0]
             data.__setitem__(key, value) 
-
-    
     return {"filename": pdf.filename, "text": data}
-
-@app.post("/api/v1/bulk_extract_text")
-async def bulk_extract_text(request: Request, bg_task: BackgroundTasks):
-    images = await request.form()
-    folder_name = str(uuid.uuid4())
-    os.mkdir(folder_name)
-
-    for image in images.values():
-        temp_file = _save_file_to_disk(image, path=folder_name, save_as=image.filename)
-
-    bg_task.add_task(ocr.read_images_from_dir, folder_name, write_to_file=True)
-    return {"task_id": folder_name, "num_files": len(images)}
-
-@app.get("/api/v1/bulk_output/{task_id}")
-async def bulk_output(task_id):
-    text_map = {}
-    for file_ in os.listdir(task_id):
-        if file_.endswith("txt"):
-            text_map[file_] = open(os.path.join(task_id, file_)).read()
-            text_map = genrateData(text_map)
-    return {"task_id": task_id, "output": text_map}
 
 def _save_file_to_disk(uploaded_file, path=".", save_as="default"):
     extension = os.path.splitext(uploaded_file.filename)[-1]
