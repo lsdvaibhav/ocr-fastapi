@@ -23,7 +23,7 @@ async def extract_text(image: UploadFile = File(...)):
     if image.filename.split('.')[-1] == 'pdf':
         # Store Pdf with convert_from_path function
         
-        images = convert_from_path(temp_file)
+        images = convert_from_path(temp_file,500)
         data='pdf'
         #text = await ocr.read_image(image[0])
     else :
