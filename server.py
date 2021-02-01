@@ -29,21 +29,21 @@ async def extract_tex_from_pdf(pdf: UploadFile = File(...)):
     with pdfplumber.open(temp_file_pdf) as pdffile:
         first_page = pdffile.pages[0]
         text = first_page.extract_table(table_settings={})
-    df = pd.DataFrame(text)
     data={}
-    for index in df.index:
+    for index,row in enumerate(text):
         value = ""
         if index <8:
-            for each in df.iloc[index][2:]:
+            for each in row[2:]:
                 if each == None:
                     pass
                 else :
                     value += each 
-            key = df.iloc[index][1]
+            key = row[1]
             data.__setitem__(key, value) 
         else:
-            key = df.iloc[index][0]
+            key = row[0]
             data.__setitem__(key, value) 
+
     
     return {"filename": pdf.filename, "text": data}
 
