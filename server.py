@@ -16,17 +16,21 @@ templates = Jinja2Templates(directory="templates")
 def home(request: Request):
     return templates.TemplateResponse("index.html", {"request": request})
 
-@app.post("/api/v1/extract_text")
+@app.post("/api/v1/extract_text_from_img")
 async def extract_text(image: UploadFile = File(...)):
-    temp_file = _save_file_to_disk(image, path="temp", save_as="temp")
-    if image.filename.split('.')[-1] == 'pdf':
-        with pdfplumber.open(temp_file) as pdf:
-            first_page = pdf.pages[0]
-            data = genrateData(first_page.extract_text())
-    else :
-        text = await ocr.read_image(temp_file)
-        data   = genrateData(text)
+    temp_file_img = _save_file_to_disk(image, path="temp", save_as="img_temp")
+    text = await ocr.read_image(temp_file_img)
+    data   = genrateData(text)
     return {"filename": image.filename, "text": data}
+
+@app.post("/api/v1/extract_text_from_pdf")
+async def extract_tex_from_pdft(pdf: UploadFile = File(...)):
+    temp_file_pdf = _save_file_to_disk(pdf, path="temp", save_as="pdf_temp")
+    if pdf.filename.split('.')[-1] == 'pdf':
+        with pdfplumber.open(temp_file) as pdffile:
+            first_page = pdffile.pages[0]
+        data = genrateData(first_page.extract_text())
+    return {"filename": pdf.filename, "text": data}
 
 @app.post("/api/v1/bulk_extract_text")
 async def bulk_extract_text(request: Request, bg_task: BackgroundTasks):
