@@ -24,12 +24,13 @@ async def extract_text(image: UploadFile = File(...)):
     return {"filename": image.filename, "text": data}
 
 @app.post("/api/v1/extract_text_from_pdf")
-async def extract_tex_from_pdft(pdf: UploadFile = File(...)):
+async def extract_tex_from_pdf(pdf: UploadFile = File(...)):
     temp_file_pdf = _save_file_to_disk(pdf, path="temp", save_as="pdf_temp")
     if pdf.filename.split('.')[-1] == 'pdf':
         with pdfplumber.open(temp_file_pdf) as pdffile:
             first_page = pdffile.pages[0]
-        data = genrateData(first_page.extract_text())
+        text = first_page.extract_text()
+        data = genrateData(text)
     return {"filename": pdf.filename, "text": data}
 
 @app.post("/api/v1/bulk_extract_text")
