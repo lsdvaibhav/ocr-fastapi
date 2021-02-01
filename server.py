@@ -7,7 +7,6 @@ import uuid
 import json
 import re
 import pdfplumber
-import pandas as pd
 
 app = FastAPI()
 templates = Jinja2Templates(directory="templates")
