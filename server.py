@@ -6,8 +6,8 @@ import os
 import uuid
 import json
 import re
-# import module
-from pdf2image import convert_from_path
+import pdfplumber
+
 
 app = FastAPI()
 templates = Jinja2Templates(directory="templates")
@@ -21,15 +21,12 @@ async def extract_text(image: UploadFile = File(...)):
     temp_file = _save_file_to_disk(image, path="temp", save_as="temp")
     print(temp_file)
     if image.filename.split('.')[-1] == 'pdf':
-        # Store Pdf with convert_from_path function
-        
-        images = convert_from_path(temp_file,500)
-        data='pdf'
-        #text = await ocr.read_image(image[0])
+        with pdfplumber.open(temp_file) as pdf:
+            first_page = pdf.pages[0]
+            data = genrateData(first_page.extract_text())
     else :
-        data= "image"
-        #text = await ocr.read_image(temp_file)
-    #data   = genrateData(text)
+        text = await ocr.read_image(temp_file)
+        data   = genrateData(text)
     return {"filename": image.filename, "text": data}
 
 @app.post("/api/v1/bulk_extract_text")
@@ -73,7 +70,7 @@ def genrateData(text):
         if len(each) >1:
             datalist.append(each)
             for eachh in each.split(' '):
-                if  eachh == '' or eachh== ' ':
+                if  eachh == '' or eachh== ' ' or len(each)==1:
                     pass
                 else :
                     text1 =  text1+ eachh+' '
