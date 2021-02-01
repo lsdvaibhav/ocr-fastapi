@@ -29,8 +29,8 @@ async def extract_tex_from_pdf(pdf: UploadFile = File(...)):
     if pdf.filename.split('.')[-1] == 'pdf':
         with pdfplumber.open(temp_file_pdf) as pdffile:
             first_page = pdffile.pages[0]
-        text = first_page.extract_text()
-        data = genrateData(text)
+            text = first_page.extract_text()
+            data = genrateData(text)
     return {"filename": pdf.filename, "text": data}
 
 @app.post("/api/v1/bulk_extract_text")
